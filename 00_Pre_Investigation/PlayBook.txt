@@ -1,0 +1,46 @@
+Run Powershell as administrator
+1. Set-ExecutionPolicy Bypass -Scope Process (yes to all)
+============================================================
+       PHASE 0: PRE-INVESTIGATION (DC AUDIT)
+============================================================
+
+1. Open PowerShell as Administrator.
+2. Run this command first (to allow script execution):
+   Set-ExecutionPolicy Bypass -Scope Process
+
+3. Execute scripts in order:
+   .\1_Auth_Hunter.ps1            (Find Attacker IP)
+   .\2_Admin_Watch.ps1            (Check Group Changes)
+   .\3_DNS_Cache_Audit.ps1        (Check C2 Connections)
+   .\4_Remote_Process_Scan.ps1    (Quick Remote Scan)
+   .\5_Scheduled_Task_Audit.ps1   (Check Persistence)
+
+------------------------------------------------------------
+4. ANALYSIS (On Analysis Lab):
+   - Open CSV files in Timeline Explorer.
+   - Open TXT files in Notepad.
+
+RED FLAGS TO LOOK FOR:
+- Admin_Watch: Unknown users in Admin groups.
+- Auth_Hunter: Remote logons from unusual IPs or at odd hours.
+- Scheduled_Tasks: Tasks running from Temp or Public folders.
+- Process Scan: Running processes without a 'Company' name.
+============================================================
+
+
+Evidence Ingestion & Timeline Analysis
+
+Safely Eject the forensic drive from the Domain Controller and transition to the Analysis Station.
+
+Ingest all generated CSV files into Timeline Explorer to begin a multi-source chronological review.
+
+8. Manual Triage: High-Value Artifact Review
+The text-based outputs from scripts 4 and 5 are designed for rapid human inspection. During review, prioritize identifying the following Indicators of Compromise (IOCs):
+
+Privileged_Group_Audit.txt: Scan for Anomalous or "Generic" Accounts (e.g., Admin1, Support, IT_Service) that do not align with the organization’s baseline or naming conventions.
+
+Scheduled_Tasks_Audit: Identify Persistence Mechanisms utilizing encoded commands, specifically searching for strings containing powershell.exe -enc.
+
+Remote_Process_Scan: Flag Suspicious Execution Paths: Monitor for processes running from volatile directories like \Temp\, \Public\, or \AppData\.
+
+Look for Masquerading Processes: Identify binaries missing a valid 'Company' Description or a verified digital signature.
