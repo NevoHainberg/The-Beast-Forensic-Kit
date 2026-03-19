@@ -1,6 +1,4 @@
- Start_Investigation_Script (The Beast) - Learning Project
 
- About this Project
 This is my personal project for learning and practicing **Cyber Forensics (DFIR)**. I built this script to better understand the forensic workflow and to see how different tools can be automated to collect evidence from a Windows machine.
 
 My goal was to move from theory to practice—building a system that follows the "Order of Volatility" and organizes artifacts in a way that makes analysis easier.
