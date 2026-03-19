@@ -20,6 +20,3 @@ The script automates the collection process in 5 main stages:
 
  Important Note:
 This repository contains the scripts and the folder structure I designed. **It does not include the third-party tools** (like KAPE or Thor). To use this kit, you need to download the binaries and place them in the correct folders (Step One / Step Two) as explained in the Playbook.
-
-
-*Created as part of my Cyber Security learning journey.*
