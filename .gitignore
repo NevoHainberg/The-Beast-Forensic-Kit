@@ -1,0 +1,13 @@
+# Ignore executables
+*.exe
+*.msi
+*.dll
+
+# Ignore evidence
+04_Evidence/*
+!04_Evidence/.gitkeep
+*.csv
+*.log
+*.zip
+*.raw
+*.mem
