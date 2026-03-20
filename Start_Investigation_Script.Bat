@@ -94,20 +94,34 @@ goto MENU
 
 :ACTION_HAYABUSA
 echo ======================================================
-echo           EVENT LOG ANALYSIS (HAYABUSA + SIGMA)        
+echo            EVENT LOG ANALYSIS (HAYABUSA + SIGMA)        
 echo ======================================================
-echo [*] Analyzing Event Logs with custom rules...
-"%ROOT%\Step Two\hayabusa-3.8.0-win-x64-live-response\hayabusa.exe" csv-timeline -d "C:\Windows\System32\winevt\Logs" -r "%ROOT%\rules" -o "%OUT%\Logs\event_timeline.csv"
+echo [*] Analyzing Event Logs...
+
+pushd "%ROOT%\Step Two\hayabusa-3.8.0-win-x64-live-response"
+hayabusa.exe csv-timeline --no-wizard --live-analysis --output "%OUT%\Logs\event_timeline.csv"
+popd
+
 echo [V] Event logs processed. Check event_timeline.csv.
 pause
 goto MENU
 
 :ACTION_MALWARE
 echo ======================================================
-echo           SCANNING FOR MALWARE (THOR + CUSTOM YARA)    
+echo            SCANNING FOR MALWARE (THOR + CUSTOM YARA)    
 echo ======================================================
 echo [*] Starting Thor Lite...
-"%ROOT%\Step One\thor-lite-windows_10.7.29\thor64.exe" -a FileScan -p "%ROOT%\rules" --eula --lab --silent -o "%OUT%\Malware\thor_report.txt"
+
+pushd "%ROOT%\Step One\thor-lite-windows_10.7.29"
+if exist "thor64-lite.exe" (
+    :: Removed --no-update, --silent and --eula as they are not in your help menu.
+    :: Using -l for the output log file path.
+    thor64-lite.exe -a FileScan -p C:\ -l "%OUT%\Malware\thor_report.txt"
+) else (
+    echo [!] Error: thor64-lite.exe not found.
+)
+popd
+
 echo [V] Malware scan finished. Results in Malware folder.
 pause
 goto MENU
